@@ -23,7 +23,7 @@ def get_full_commentary(match_url,file_name):
 
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
     driver.get(match_url)
-    wait = WebDriverWait(driver, 10)
+    wait = WebDriverWait(driver, 12)
 
     #ball_by_ball_data = []
     prev_count = 0  # Track previous entry count
@@ -75,7 +75,7 @@ def get_full_commentary(match_url,file_name):
     while True:
         # Scroll down to bottom
         driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-        time.sleep(2)  # Allow time for new content to load
+        time.sleep(3)  # Allow time for new content to load
         
         # On first iteration, try to find and click "Load More" button if it exists
         if prev_count == 0:
@@ -93,11 +93,11 @@ def get_full_commentary(match_url,file_name):
                     try:
                         load_more_button = wait.until(EC.element_to_be_clickable((By.XPATH, selector)))
                         driver.execute_script("arguments[0].scrollIntoView();", load_more_button)
-                        time.sleep(1)
+                        time.sleep(3)
                         driver.execute_script("arguments[0].click();", load_more_button)
                         button_found = True
                         #print("Clicked 'Load More' button")
-                        time.sleep(2)
+                        time.sleep(3)
                         break
                     except:
                         continue
@@ -240,8 +240,8 @@ def write_tuples_to_excel(data, filename="output.xlsx", sheet_name="Sheet1"):
     sheet.title = sheet_name
 
     # Write headers (optional, but good practice)
-    sheet.cell(row=1, column=1, value="Value 1")
-    sheet.cell(row=1, column=2, value="Value 2")
+    sheet.cell(row=1, column=1, value="BALL")
+    sheet.cell(row=1, column=2, value="COMMENTARY")
 
     # Write the data from the list of tuples
     for row_num, tuple_data in enumerate(data, start=2):  # Start from row 2
